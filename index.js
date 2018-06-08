@@ -46,7 +46,7 @@ const SVG_ATTS = ['viewBox', 'width', 'height'];
 const G_ATTS = ['id', 'fill'];
 
 const CIRCLE_ATTS = ['cx', 'cy', 'r'];
-const PATH_ATTS = ['d'];
+const PATH_ATTS = ['d', 'fillRule', 'clipRule'];
 const RECT_ATTS = ['width', 'height'];
 const LINE_ATTS = ['x1', 'y1', 'x2', 'y2'];
 const LINEARG_ATTS = LINE_ATTS.concat(['id', 'gradientUnits']);
@@ -220,6 +220,11 @@ class SvgUri extends Component{
 
   obtainComponentAtts({attributes}, enabledAttributes) {
     const styleAtts = {};
+
+    if (this.state.fill && this.props.fillAll) {
+      styleAtts.fill = this.state.fill;
+    }
+
     Array.from(attributes).forEach(({nodeName, nodeValue}) => {
       Object.assign(styleAtts, utils.transformStyle({
         nodeName,
@@ -303,6 +308,7 @@ SvgUri.propTypes = {
   svgXmlData: PropTypes.string,
   source: PropTypes.any,
   fill: PropTypes.string,
+  fillAll: PropTypes.bool
 }
 
 module.exports = SvgUri;
